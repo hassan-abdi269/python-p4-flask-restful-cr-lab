@@ -5,22 +5,28 @@ function NewPlantForm({ onAddPlant }) {
   const [image, setImage] = useState("");
   const [price, setPrice] = useState("");
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    fetch("/plants", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        image: image,
-        price: price,
-      }),
-    })
-      .then((r) => r.json())
-      .then((newPlant) => onAddPlant(newPlant));
-  }
+function handleSubmit(e) {
+  e.preventDefault();
+  fetch("/plants", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: name,
+      image: image,
+      price: price,
+    }),
+  })
+    .then((r) => r.json())
+    .then((newPlant) => {
+      onAddPlant(newPlant);
+      // ✅ Clear form fields after successful POST
+      setName("");
+      setImage("");
+      setPrice("");
+    });
+}
 
   return (
     <div className="new-plant-form">
